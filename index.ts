@@ -1,7 +1,12 @@
-import { Hono } from "hono";
+import express, { Request, Response } from 'express';
 
-const app = new Hono();
+const app = express();
+const PORT = process.env.PORT ?? 3000;
 
-app.get("/", (c) => c.json({ message: "Hello from n8n pipeline test" }));
+app.get('/health', (_req: Request, res: Response) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
-export default app;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
